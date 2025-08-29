@@ -1,5 +1,5 @@
-import Carousel from '@/components/ui/carousel';
-import ProductCard from '@/components/ui/ProductCard';
+import ProductCard from "@/components/layout/ProductCard";
+import Carousel from "@/components/ui/Carousel";
 
 interface Product {
   id: number;
