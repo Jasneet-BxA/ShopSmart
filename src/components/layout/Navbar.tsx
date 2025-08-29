@@ -16,19 +16,17 @@ export default function Navbar() {
   const router = useRouter();
 
   const handleLogout = () => {
-    // Add your logout logic here (clear tokens, context, etc)
     console.log('User logged out');
-    router.push('/login'); // redirect to login or home
+    router.push('/login'); 
   };
 
   return (
     <nav className="w-full border-b bg-white px-6 py-4 flex items-center justify-between">
-      {/* Logo */}
+
       <Link href="/" className="text-xl font-bold">
         MyStore
       </Link>
 
-      {/* Links */}
       <div className="flex items-center space-x-6">
         <Link href="/product" className="text-gray-700 hover:text-gray-900">
           All Products
@@ -37,7 +35,6 @@ export default function Navbar() {
           Cart
         </Link>
 
-        {/* Account Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm">
