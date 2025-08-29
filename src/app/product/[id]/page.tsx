@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button";
-
 interface Product {
   id: number;
   title: string;
@@ -49,11 +47,6 @@ export default async function ProductPage({ params, }: ProductPageProps) {
           <div className="flex items-center justify-between">
             <span className="text-3xl font-extrabold text-primary">${product.price.toFixed(2)}</span>
           </div>
-          <div>
-          <Button size="sm" >
-          Add to Cart
-        </Button>
-        </div>
         </div>
         
       </div>

@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 interface Product {
@@ -41,9 +40,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             />
             <h2 className="font-semibold text-lg">{product.title}</h2>
             <p className="font-bold">${product.price.toFixed(2)}</p>
-            <Button size="sm" >
-          Add to Cart
-        </Button>
+            
           </Link>
         ))}
       </div>
