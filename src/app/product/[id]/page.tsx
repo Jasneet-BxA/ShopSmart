@@ -1,4 +1,3 @@
-import Image from 'next/image';
 
 interface Product {
   id: number;
@@ -10,7 +9,7 @@ interface Product {
 }
 
 interface ProductPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 async function getProduct(id: string): Promise<Product> {
@@ -19,8 +18,9 @@ async function getProduct(id: string): Promise<Product> {
   return res.json();
 }
 
-export default async function ProductPage({ params }: ProductPageProps) {
-  const product = await getProduct(params.id);
+export default async function ProductPage({ params, }: ProductPageProps) {
+  const { id } = await params;
+  const product = await getProduct(id);
 
   return (
     <main className="min-h-screen max-w-5xl mx-auto p-6 bg-white rounded-md shadow-md">
@@ -47,7 +47,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
           <div className="flex items-center justify-between">
             <span className="text-3xl font-extrabold text-primary">${product.price.toFixed(2)}</span>
-            {/* Add to Cart button or other actions can go here */}
           </div>
         </div>
       </div>

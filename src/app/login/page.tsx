@@ -5,22 +5,20 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation'; // ✅ import useRouter
+import { useRouter } from 'next/navigation'; 
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const router = useRouter(); // ✅ initialize router
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // ✅ Replace with real login logic here
     console.log('Logging in with:', { email, password });
 
-    // Simulate successful login
     setTimeout(() => {
-      router.push('/account'); // ✅ redirect after login
+      router.push('/account'); 
     }, 500);
   };
 

@@ -12,7 +12,6 @@ interface CartItem {
 }
 
 export default function CartPage() {
-  // Sample initial cart items (replace or update this manually)
   const [cartItems, setCartItems] = useState<CartItem[]>([
     {
       id: 1,

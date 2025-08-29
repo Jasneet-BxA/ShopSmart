@@ -15,12 +15,14 @@ async function fetchProducts(): Promise<Product[]> {
   return res.json();
 }
 
-export default async function ProductsPage({
-  searchParams,
-}: {
-  searchParams: { category?: string };
-}) {
-  const selectedCategory = searchParams.category || 'all';
+interface ProductsPageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+export default async function ProductsPage({ searchParams }: ProductsPageProps) {
+    const {category} = await searchParams;
+   const selectedCategory = await Array.isArray(category)
+    ? category
+    : category || 'all';
 
   const products = await fetchProducts();
   const categories = Array.from(new Set(products.map((p) => p.category)));
@@ -34,7 +36,6 @@ export default async function ProductsPage({
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Products</h1>
 
-      {/* Category Filter */}
       <div className="mb-6 space-x-3">
         <Link
           href="/products"
@@ -57,7 +58,6 @@ export default async function ProductsPage({
         ))}
       </div>
 
-      {/* Product Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredProducts.map((product) => (
           <Link
