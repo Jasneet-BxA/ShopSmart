@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 interface Product {
@@ -19,6 +20,7 @@ interface ProductsPageProps {
 }
 
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
+  
   const products = await fetchProducts();
 
   return (
@@ -38,10 +40,10 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               className="h-48 w-full object-contain mb-4"
             />
             <h2 className="font-semibold text-lg">{product.title}</h2>
-            <p className="text-gray-600 text-sm mb-2 line-clamp-2">
-              {product.description}
-            </p>
             <p className="font-bold">${product.price.toFixed(2)}</p>
+            <Button size="sm" >
+          Add to Cart
+        </Button>
           </Link>
         ))}
       </div>
