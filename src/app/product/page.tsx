@@ -5,7 +5,6 @@ interface Product {
   title: string;
   price: number;
   description: string;
-  category: string;
   image: string;
 }
 
@@ -18,48 +17,16 @@ async function fetchProducts(): Promise<Product[]> {
 interface ProductsPageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
+
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
-    const {category} = await searchParams;
-   const selectedCategory = await Array.isArray(category)
-    ? category
-    : category || 'all';
-
   const products = await fetchProducts();
-  const categories = Array.from(new Set(products.map((p) => p.category)));
-
-  const filteredProducts =
-    selectedCategory === 'all'
-      ? products
-      : products.filter((p) => p.category === selectedCategory);
 
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Products</h1>
 
-      <div className="mb-6 space-x-3">
-        <Link
-          href="/products"
-          className={`px-4 py-2 rounded ${
-            selectedCategory === 'all' ? 'bg-blue-600 text-white' : 'bg-gray-200'
-          }`}
-        >
-          All
-        </Link>
-        {categories.map((category) => (
-          <Link
-            key={category}
-            href={`/products?category=${encodeURIComponent(category)}`}
-            className={`px-4 py-2 rounded ${
-              selectedCategory === category ? 'bg-blue-600 text-white' : 'bg-gray-200'
-            }`}
-          >
-            {category}
-          </Link>
-        ))}
-      </div>
-
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredProducts.map((product) => (
+        {products.map((product) => (
           <Link
             key={product.id}
             href={`/product/${product.id}`}
