@@ -1,0 +1,70 @@
+'use client';
+
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import Link from 'next/link';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation'; // ✅ import useRouter
+
+export default function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const router = useRouter(); // ✅ initialize router
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // ✅ Replace with real login logic here
+    console.log('Logging in with:', { email, password });
+
+    // Simulate successful login
+    setTimeout(() => {
+      router.push('/account'); // ✅ redirect after login
+    }, 500);
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
+      <div className="w-full max-w-md bg-white shadow-md rounded-lg p-8">
+        <h1 className="text-2xl font-bold mb-6 text-center">Login to Your Account</h1>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="password">Password</Label>
+            <Input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <Button type="submit" className="w-full">
+            Login
+          </Button>
+        </form>
+
+        <div className="mt-6 text-center text-sm text-gray-600">
+          Don&apos;t have an account?{' '}
+          <Link href="/signup" className="text-primary font-medium hover:underline">
+            Sign up
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
