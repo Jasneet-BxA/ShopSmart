@@ -4,10 +4,10 @@ import { Button } from '@/components/ui/button';
 import { CartItem, useCart } from '../context/CartContext';
 
 const CartPage = () => {
-  const { cart, removeFromCart, clearCart } = useCart();
+  const { cart, removeFromCart, clearCart, updateQuantity } = useCart();
 
   const grandTotal = cart.reduce(
-    (total:number, item: CartItem) => total + item.price * item.quantity,
+    (total: number, item: CartItem) => total + item.price * item.quantity,
     0
   );
 
@@ -33,7 +33,26 @@ const CartPage = () => {
                 <div>
                   <h2 className="text-xl font-semibold">{item.name}</h2>
                   <p className="text-gray-600">Price: ${item.price.toFixed(2)}</p>
-                  <p className="text-gray-600">Quantity: {item.quantity}</p>
+
+                  <div className="flex items-center space-x-2 mt-1">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                      disabled={item.quantity === 1} // disable when quantity = 1
+                      className={item.quantity === 1 ? 'cursor-not-allowed opacity-50' : ''}
+                    >
+                      -
+                    </Button>
+                    <span className="min-w-[24px] text-center">{item.quantity}</span>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                    >
+                      +
+                    </Button>
+                  </div>
                 </div>
               </div>
               <div className="text-right">
@@ -52,9 +71,7 @@ const CartPage = () => {
           ))}
 
           <div className="text-right pt-6 border-t mt-8">
-            <p className="text-xl font-bold">
-              Grand Total: ${grandTotal.toFixed(2)}
-            </p>
+            <p className="text-xl font-bold">Grand Total: ${grandTotal.toFixed(2)}</p>
             <div className="flex justify-end gap-4 mt-4">
               <Button variant="outline" onClick={clearCart}>
                 Clear Cart
