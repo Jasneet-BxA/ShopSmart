@@ -1,6 +1,9 @@
-"use client"
-import Link from 'next/link';
+'use client';
+
 import { Button } from '@/components/ui/button';
+import { useCart } from '@/app/context/CartContext';
+import Link from 'next/link';
+import AddToCartButton from './AddToCart';
 
 interface Product {
   id: number;
@@ -16,40 +19,46 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const handleAddToCartClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();  
-    e.stopPropagation(); 
+  const { addToCart } = useCart();
 
-    console.log(`Added product ${product.id} to cart`);
+  const handleAddToCartClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    addToCart({
+      id: product.id,
+      name: product.title,
+      price: product.price,
+      quantity: 1,
+      image: product.image,
+    });
+
+    console.log(`✅ Added product ${product.title} to cart`);
   };
 
   return (
-    <Link
-      href={`/product/${product.id}`} 
-      className="block border rounded-md p-4 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col"
-      style={{ cursor: 'pointer' }}
-    >
-      <div className="relative w-full h-48 mb-4">
-        <img
-          src={product.image}
-          alt={product.title}
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain',
-          }}
-          className="rounded-md"
-        />
-      </div>
-      <h3 className="text-lg font-semibold line-clamp-2">{product.title}</h3>
-      {/* <p className="text-sm text-gray-500 mt-1 line-clamp-3">{product.description}</p> */}
+    <div className="border rounded-md p-4 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col">
+      <Link href={`/product/${product.id}`}>
+        <div className="relative w-full h-48 mb-4">
+          <img
+            src={product.image}
+            alt={product.title}
+            className="w-full h-full object-contain rounded-md"
+          />
+        </div>
+        <h3 className="text-lg font-semibold line-clamp-2">{product.title}</h3>
+      </Link>
+
       <div className="mt-auto flex items-center justify-between pt-4">
         <span className="text-primary font-bold text-lg">${product.price.toFixed(2)}</span>
-        <Button size="sm" onClick={handleAddToCartClick}>
-          Add to Cart
-        </Button>
+        <AddToCartButton
+                id={product.id}
+                name={product.title}
+                price={product.price}
+                image={product.image}
+              />
       </div>
-    </Link>
+    </div>
   );
 };
 

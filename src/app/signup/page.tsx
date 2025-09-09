@@ -5,20 +5,30 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useRouter } from 'next/navigation';
 
 export default function SignupPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
 
-  const handleSignup = (e: React.FormEvent) => {
+  const handleSignup = async(e: React.FormEvent) => {
     e.preventDefault();
+    const res = await fetch('/api/routes/signup',{
+      method: 'POST',
+      body: JSON.stringify({email, password}),
+      headers: {'Content-Type': 'application/json'}
+    })
+    if(res.ok){
+      router.push('./login')
+    }
+    else{
+      alert('Signup failed');
+    }
+    console.log('Signing up:', {email, password });
 
-    // Fake signup logic for now
-    console.log('Signing up:', { name, email, password });
-
-    // TODO: send data to backend or auth provider
-  };
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">

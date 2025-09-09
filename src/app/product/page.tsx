@@ -1,3 +1,4 @@
+import AddToCartButton from '@/components/layout/AddToCart';
 import Link from 'next/link';
 
 interface Product {
@@ -19,7 +20,6 @@ interface ProductsPageProps {
 }
 
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
-  
   const products = await fetchProducts();
 
   return (
@@ -28,20 +28,28 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
-          <Link
+          <div
             key={product.id}
-            href={`/product/${product.id}`}
-            className="border rounded p-4 shadow hover:shadow-md transition block"
+            className="border rounded p-4 shadow hover:shadow-md transition flex flex-col"
           >
-            <img
-              src={product.image}
-              alt={product.title}
-              className="h-48 w-full object-contain mb-4"
-            />
-            <h2 className="font-semibold text-lg">{product.title}</h2>
-            <p className="font-bold">${product.price.toFixed(2)}</p>
-            
-          </Link>
+            <Link href={`/product/${product.id}`} className="flex-1 block">
+              <img
+                src={product.image}
+                alt={product.title}
+                className="h-48 w-full object-contain mb-4"
+              />
+              <h2 className="font-semibold text-lg">{product.title}</h2>
+              <p className="font-bold">${product.price.toFixed(2)}</p>
+            </Link>
+            <div className="mt-4">
+              <AddToCartButton
+                id={product.id}
+                name={product.title}
+                price={product.price}
+                image={product.image}
+              />
+            </div>
+          </div>
         ))}
       </div>
     </div>

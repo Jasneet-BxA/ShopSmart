@@ -1,3 +1,5 @@
+import AddToCartButton from "@/components/layout/AddToCart";
+
 interface Product {
   id: number;
   title: string;
@@ -47,7 +49,14 @@ export default async function ProductPage({ params, }: ProductPageProps) {
           <div className="flex items-center justify-between">
             <span className="text-3xl font-extrabold text-primary">${product.price.toFixed(2)}</span>
           </div>
+          <AddToCartButton
+              id={product.id}
+              name={product.title}
+              price={product.price}
+              image={product.image}
+            />
         </div>
+        
         
       </div>
     </main>

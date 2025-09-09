@@ -12,14 +12,29 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log('Logging in with:', { email, password });
+     try {
+      const res = await fetch('/api/routes/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    setTimeout(() => {
-      router.push('/account'); 
-    }, 500);
+      if (!res.ok) {
+        const errorData = await res.json();
+        alert(`Login failed: ${errorData.error}`);
+        return;
+      }
+
+      router.push('/account'); // redirect on successful login
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('Something went wrong. Please try again.');
+    }
   };
 
   return (
